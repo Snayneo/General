@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snayneo — Разработка игр и обучение</title>
+    <style>
+        /* --- Основные настройки и переменные --- */
+        :root {
+            --primary-color: #7C4DFF; /* Фиолетовый акцент */
+            --secondary-color: #00E5FF; /* Голубой акцент */
+            --bg-color: #121212;
+            --card-bg: #1E1E1E;
+            --text-color: #E0E0E0;
+            --text-muted: #A0A0A0;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Утилиты --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 20px 0;
+            background-color: rgba(18, 18, 18, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, #2a1a4a 0%, var(--bg-color) 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* --- Stats --- */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* --- Features (Why Us) --- */
+        .features {
+            padding: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            border: 1px solid #333;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        /* --- Projects --- */
+        .projects {
+            padding: 80px 0;
+            background-color: #161616;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-img {
+            height: 180px;
+            background: linear-gradient(135deg, #333, #444);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        /* Псевдо-изображения для примера */
+        .project-card:nth-child(1) .project-img { background: linear-gradient(135deg, #2b5876, #4e4376); color: white; }
+        .project-card:nth-child(2) .project-img { background: linear-gradient(135deg, #cc2b5e, #753a88); color: white; }
+        .project-card:nth-child(3) .project-img { background: linear-gradient(135deg, #42275a, #734b6d); color: white; }
+
+        .project-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: auto;
+            padding-top: 15px;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary-color);
+        }
+
+        /* --- Courses --- */
+        .courses {
+            padding: 80px 0;
+        }
+
+        .course-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .course-btn {
+            margin-top: 20px;
+            align-self: flex-start;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #0a0a0a;
+            padding: 60px 0 20px;
+            border-top: 1px solid #333;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-muted);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* --- Адаптивность для мобильных --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Можно добавить бургер-меню, но для простоты скроем */
+            .stats { gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Snay<span>neo</span></a>
+                <div class="nav-links">
+                    <a href="#about">Почему мы</a>
+                    <a href="#projects">Проекты</a>
+                    <a href="#courses">Курсы</a>
+                    <a href="#contacts">Контакты</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главный экран -->
+    <section class="hero">
+        <div class="container">
+            <h1>Snayneo — разработка игр и обучение</h1>
+            <p>Мы — команда разработчиков. Snayneo объединяет образование и творчество: создаём проекты, обучаем, делимся опытом.</p>
+            <a href="#about" class="btn">Узнать больше</a>
+
+            <!-- Статистика -->
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Членов команды</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Активных проекта</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">12+</span>
+                    <span class="stat-label">Нужно тестеров</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Почему мы -->
+    <section id="about" class="features">
+        <div class="container">
+            <h2 class="section-title">Почему мы</h2>
+            <p class="section-subtitle">Объединяем образование, творчество и технологии</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🎓</span>
+                    <h3>Бесплатные курсы</h3>
+                    <p>Курсы по Unity, Ccode и Godot с простыми объяснениями сложных тем и реальными примерами из практики.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🚀</span>
+                    <h3>Реальные проекты</h3>
+                    <p>Работа над настоящими проектами и возможность попасть в команду разработчиков для получения опыта.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🤝</span>
+                    <h3>Поддержка сообщества</h3>
+                    <p>Активное сообщество разработчиков, где можно обмениваться опытом, задавать вопросы и получать помощь.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наши проекты -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Наши проекты</h2>
+            <p class="section-subtitle">Игры, созданные на различных движках</p>
+
+            <div class="project-grid">
+                <!-- Проект 1 -->
+                <div class="project-card">
+                    <div class="project-img">Combat Shot</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Combat Shot</h3>
+                        <p>Продолжение культового шутера Black Strike. Улучшенная графика и динамика.</p>
+                        <div class="tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">3D</span>
+                            <span class="tag">Мультиплеер</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 2 -->
+                <div class="project-card">
+                    <div class="project-img">Blade Clash 2</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Blade Clash 2</h3>
+                        <p>Динамичные сражения, новые арены и механики. Улучшенная боевая система.</p>
+                        <div class="tags">
+                            <span class="tag">Ccode</span>
+                            <span class="tag">2D</span>
+                            <span class="tag">Экшен</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Проект 3 -->
+                <div class="project-card">
+                    <div class="project-img">Skin's Hunter</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Skin's Hunter</h3>
+                        <p>Новая 2D-игра про охоту за скинами! Кейсы, трейды, мини-игры и эксклюзивные предметы.</p>
+                        <div class="tags">
+                            <span class="tag">Corona</span>
+                            <span class="tag">2D</span>
+                            <span class="tag">Коллекционирование</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наши курсы -->
+    <section id="courses" class="courses">
+        <div class="container">
+            <h2 class="section-title">Наша подборка курсов</h2>
+            <p class="section-subtitle">Бесплатные обучающие материалы по разработке игр</p>
+
+            <div class="features-grid">
+                <div class="course-card">
+                    <div>
+                        <h3 class="course-title">Unity разработка</h3>
+                        <p>Изучите создание 2D и 3D игр с нуля. Простое объяснение, реальные примеры и практические задания.</p>
+                    </div>
+                    <a href="#" class="btn btn-outline course-btn">Перейти на курс</a>
+                </div>
+
+                <div class="course-card">
+                    <div>
+                        <h3 class="course-title">Конструктор Ccode</h3>
+                        <p>Основы и продвинутая логика для игровых механик. От простых скриптов до сложных систем.</p>
+                    </div>
+                    <a href="#" class="btn btn-outline course-btn">Смотреть на YouTube</a>
+                </div>
+
+                <div class="course-card">
+                    <div>
+                        <h3 class="course-title">Движок Godot</h3>
+                        <p>Бесплатный движок с огромными возможностями. Узнайте, как делать игры быстро и просто.</p>
+                    </div>
+                    <a href="#" class="btn btn-outline course-btn">Перейти на курс</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал (Footer) -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Snayneo</h4>
+                    <p style="color: #a0a0a0; font-size: 0.9rem;">
+                        Разработка игр и создание обучающих материалов по различным игровым движкам.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Наши ресурсы</h4>
+                    <ul>
+                        <li><a href="#">О Snayneo</a></li>
+                        <li><a href="#">Документация</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                        <li><a href="#">Условия использования</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Наши контакты</h4>
+                    <div class="social-links">
+                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">Telegram</a>
+                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">YouTube</a>
+                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2022-2025 Snayneo. Все права защищены.</p>
+                <p style="margin-top: 5px; font-size: 0.8rem;">Создано с ❤️ командой Snayneo.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
