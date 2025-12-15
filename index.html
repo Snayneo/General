@@ -3,473 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snayneo — Разработка игр и обучение</title>
+    <title>Snayneo — Разработка и Обучение</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,500&display=swap" rel="stylesheet">
     <style>
-        /* --- Основные настройки и переменные --- */
+        /* --- Сброс и База --- */
         :root {
-            --primary-color: #7C4DFF; /* Фиолетовый акцент */
-            --secondary-color: #00E5FF; /* Голубой акцент */
-            --bg-color: #121212;
-            --card-bg: #1E1E1E;
-            --text-color: #E0E0E0;
-            --text-muted: #A0A0A0;
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --primary-purple: #7C4DFF;
+            --primary-accent: #6d28d9;
+            --discord-blue: #5865F2;
+            --bg-dark: #050505;
+            --card-bg: #0e0e10;
+            --text-white: #ffffff;
+            --text-grey: #888888;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            outline: none;
         }
 
         body {
             font-family: var(--font-main);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            width: 100%;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: 0.3s;
+        /* --- Фон (Fixed) --- */
+        .background-fx {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(124, 77, 255, 0.1) 0%, transparent 40%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
         }
 
-        ul {
-            list-style: none;
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle, transparent 40%, #000000 100%);
+            z-index: -1;
         }
 
-        /* --- Утилиты --- */
+        /* --- Общие классы --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            border-radius: 50px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
         .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #fff, var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 50px;
-            font-size: 1.1rem;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 20px 0;
-            background-color: rgba(18, 18, 18, 0.95);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid #333;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            letter-spacing: 2px;
-        }
-
-        .logo span {
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a:hover {
-            color: var(--secondary-color);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            background: radial-gradient(circle at center, #2a1a4a 0%, var(--bg-color) 70%);
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 40px;
-        }
-
-        /* --- Stats --- */
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 60px;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
             font-size: 3rem;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        .stat-label {
-            color: var(--text-muted);
+            font-weight: 900;
             text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        /* --- Features (Why Us) --- */
-        .features {
-            padding: 80px 0;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            transition: transform 0.3s;
-            border: 1px solid #333;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: white;
-        }
-
-        /* --- Projects --- */
-        .projects {
-            padding: 80px 0;
-            background-color: #161616;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid #333;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-img {
-            height: 180px;
-            background: linear-gradient(135deg, #333, #444);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: -1px;
         }
         
-        /* Псевдо-изображения для примера */
-        .project-card:nth-child(1) .project-img { background: linear-gradient(135deg, #2b5876, #4e4376); color: white; }
-        .project-card:nth-child(2) .project-img { background: linear-gradient(135deg, #cc2b5e, #753a88); color: white; }
-        .project-card:nth-child(3) .project-img { background: linear-gradient(135deg, #42275a, #734b6d); color: white; }
+        .section-title span {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--primary-purple);
+        }
 
-        .project-content {
-            padding: 25px;
-            flex-grow: 1;
+        /* --- Навигация --- */
+        nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1100px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            padding: 15px 40px;
             display: flex;
-            flex-direction: column;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: auto;
-            padding-top: 15px;
-        }
-
-        .tag {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--secondary-color);
-        }
-
-        /* --- Courses --- */
-        .courses {
-            padding: 80px 0;
-        }
-
-        .course-card {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 5px solid var(--primary-color);
-            display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            height: 100%;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .course-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: #888;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 20px;
+            transition: 0.3s;
+        }
+        .nav-center a:hover { color: #fff; }
+
+        .nav-btn {
+            background: linear-gradient(90deg, #7C4DFF, #9D46FF);
             color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
         }
 
-        .course-btn {
-            margin-top: 20px;
-            align-self: flex-start;
-            font-size: 0.9rem;
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .status-badge {
+            background-color: #0f0f11;
+            border: 1px solid #2a2a2a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .dot { width: 8px; height: 8px; background: var(--primary-purple); border-radius: 50%; box-shadow: 0 0 10px var(--primary-purple); }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: -2px;
+        }
+        .h1-outline {
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--primary-accent);
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+        }
+        .subtitle {
+            color: #888;
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+
+        .action-buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;}
+        .btn-main {
+            display: flex; align-items: center; gap: 10px;
+            padding: 18px 35px; border-radius: 12px;
+            font-weight: 900; text-transform: uppercase; font-size: 1rem;
+            text-decoration: none; transition: transform 0.2s;
+        }
+        .btn-main:hover { transform: translateY(-3px); }
+        .btn-white { background-color: #fff; color: #000; }
+        .btn-blue { background-color: var(--discord-blue); color: #fff; }
+        .icon { width: 20px; height: 20px; fill: currentColor; }
+
+        /* --- STATS BAR --- */
+        .stats-bar {
+            background: #0e0e10;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--text-white); display: block;}
+        .stat-label { color: var(--primary-purple); font-weight: 700; text-transform: uppercase; font-size: 0.9rem;}
+
+        /* --- PROJECTS & CARDS --- */
+        .section-padding { padding: 100px 0; }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #222;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.3s;
+            position: relative;
+        }
+        .card:hover {
+            border-color: var(--primary-purple);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Project specific */
+        .project-thumb {
+            height: 180px;
+            background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.1);
+            text-transform: uppercase;
+        }
+        .p-1 { background: linear-gradient(135deg, #2b32b2, #1488cc); }
+        .p-2 { background: linear-gradient(135deg, #ec008c, #fc6767); }
+        .p-3 { background: linear-gradient(135deg, #cc2b5e, #753a88); }
+
+        .card-body { padding: 25px; }
+        .card-title { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
+        .card-text { color: var(--text-grey); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        
+        .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag {
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            color: var(--primary-purple);
+            font-weight: 700;
+            border: 1px solid rgba(124, 77, 255, 0.2);
+        }
+
+        /* --- COURSES (List style) --- */
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .course-item:hover { border-color: var(--primary-purple); }
+        .course-info h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; }
+        .course-info p { color: var(--text-grey); font-size: 0.9rem; }
+        .btn-small {
             padding: 10px 20px;
+            border: 2px solid var(--primary-purple);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            white-space: nowrap;
+            margin-left: 20px;
         }
+        .btn-small:hover { background: var(--primary-purple); }
 
-        /* --- Footer --- */
+        /* --- FOOTER --- */
         footer {
-            background-color: #0a0a0a;
-            padding: 60px 0 20px;
-            border-top: 1px solid #333;
+            background: #080808;
+            border-top: 1px solid #222;
+            padding: 60px 0 30px;
+            margin-top: 50px;
         }
-
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
             margin-bottom: 40px;
         }
-
         .footer-col h4 {
-            color: white;
+            color: #fff;
+            font-weight: 800;
+            text-transform: uppercase;
             margin-bottom: 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: var(--text-muted);
-        }
-
-        .footer-col ul li a:hover {
-            color: var(--primary-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: var(--text-grey); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: var(--primary-purple); }
+        
         .copyright {
             text-align: center;
-            border-top: 1px solid #222;
-            padding-top: 20px;
-            color: #666;
-            font-size: 0.9rem;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 30px;
+            color: #555;
+            font-size: 0.8rem;
         }
 
-        /* --- Адаптивность для мобильных --- */
+        /* --- Адаптивность --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Можно добавить бургер-меню, но для простоты скроем */
-            .stats { gap: 30px; }
+            h1, .h1-outline { font-size: 2.5rem; }
+            .nav-center { display: none; }
+            nav { padding: 15px 20px; width: 95%; }
+            .course-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .btn-small { margin-left: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Шапка -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">Snay<span>neo</span></a>
-                <div class="nav-links">
-                    <a href="#about">Почему мы</a>
-                    <a href="#projects">Проекты</a>
-                    <a href="#courses">Курсы</a>
-                    <a href="#contacts">Контакты</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <div class="background-fx"></div>
+    <div class="vignette"></div>
 
-    <!-- Главный экран -->
+    <!-- Навигация -->
+    <nav>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div class="logo-icon">SN</div>
+            <span style="font-weight:800; font-size:1.1rem; text-transform:uppercase;">Snayneo</span>
+        </div>
+        <div class="nav-center">
+            <a href="#info">О нас</a>
+            <a href="#projects">Проекты</a>
+            <a href="#courses">Курсы</a>
+        </div>
+        <a href="#footer" class="nav-btn">Контакты</a>
+    </nav>
+
+    <!-- ГЛАВНЫЙ ЭКРАН -->
     <section class="hero">
-        <div class="container">
-            <h1>Snayneo — разработка игр и обучение</h1>
-            <p>Мы — команда разработчиков. Snayneo объединяет образование и творчество: создаём проекты, обучаем, делимся опытом.</p>
-            <a href="#about" class="btn">Узнать больше</a>
+        <div class="status-badge">
+            <div class="dot"></div>
+            <span>Команда Snayneo</span>
+        </div>
 
-            <!-- Статистика -->
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number">5</span>
-                    <span class="stat-label">Членов команды</span>
+        <h1>РАЗРАБОТКА ИГР</h1>
+        <div class="h1-outline">И ОБУЧЕНИЕ</div>
+
+        <p class="subtitle">"Мы объединяем образование, творчество и технологии. Создаём проекты, обучаем и делимся опытом."</p>
+
+        <div class="action-buttons">
+            <!-- Кнопка скроллит вниз -->
+            <a href="#info" class="btn-main btn-white">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" transform="rotate(90 12 12)"/></svg>
+                УЗНАТЬ БОЛЬШЕ
+            </a>
+
+            <a href="https://telegram.org" target="_blank" class="btn-main btn-blue">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M20.665 3.717c-9.066-3.832-15.938.835-15.938.835L2.26 12.3c-1.574.629-.982 2.223-.982 2.223L4.7 16.03l.256 3.633s.104 2.656 2.376 0l2.716-2.274 5.378 3.99s1.424 1.05 2.502-.857l4.636-16.14s.46-1.786-1.898-.665zM6.91 14.868l9.61-6.666-7.868 6.954-1.298.11s-.494-.03-.444-.4z"/></svg>
+                TELEGRAM
+            </a>
+        </div>
+    </section>
+
+    <!-- СТАТИСТИКА -->
+    <div class="stats-bar" id="info">
+        <div class="container stats-grid">
+            <div class="stat-item">
+                <span class="stat-num">5</span>
+                <span class="stat-label">Членов команды</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">3</span>
+                <span class="stat-label">Активных проекта</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num">12+</span>
+                <span class="stat-label">Нужно тестеров</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОЧЕМУ МЫ (КАРТОЧКИ) -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Почему <span>Мы</span></h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div style="font-size:2rem; margin-bottom:15px;">🎓</div>
+                        <h3 class="card-title">Бесплатные курсы</h3>
+                        <p class="card-text">Курсы по Unity, Ccode и Godot с простыми объяснениями сложных тем и реальными примерами.</p>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">3</span>
-                    <span class="stat-label">Активных проекта</span>
+                <div class="card">
+                    <div class="card-body">
+                        <div style="font-size:2rem; margin-bottom:15px;">🚀</div>
+                        <h3 class="card-title">Реальные проекты</h3>
+                        <p class="card-text">Работа над настоящими проектами и возможность попасть в команду разработчиков.</p>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">12+</span>
-                    <span class="stat-label">Нужно тестеров</span>
+                <div class="card">
+                    <div class="card-body">
+                        <div style="font-size:2rem; margin-bottom:15px;">🤝</div>
+                        <h3 class="card-title">Сообщество</h3>
+                        <p class="card-text">Активное сообщество разработчиков, где можно обмениваться опытом и получать помощь.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Почему мы -->
-    <section id="about" class="features">
+    <!-- НАШИ ПРОЕКТЫ -->
+    <section class="section-padding" id="projects" style="background: rgba(255,255,255,0.02);">
         <div class="container">
-            <h2 class="section-title">Почему мы</h2>
-            <p class="section-subtitle">Объединяем образование, творчество и технологии</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">🎓</span>
-                    <h3>Бесплатные курсы</h3>
-                    <p>Курсы по Unity, Ccode и Godot с простыми объяснениями сложных тем и реальными примерами из практики.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🚀</span>
-                    <h3>Реальные проекты</h3>
-                    <p>Работа над настоящими проектами и возможность попасть в команду разработчиков для получения опыта.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🤝</span>
-                    <h3>Поддержка сообщества</h3>
-                    <p>Активное сообщество разработчиков, где можно обмениваться опытом, задавать вопросы и получать помощь.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Наши проекты -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Наши проекты</h2>
-            <p class="section-subtitle">Игры, созданные на различных движках</p>
-
-            <div class="project-grid">
-                <!-- Проект 1 -->
-                <div class="project-card">
-                    <div class="project-img">Combat Shot</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Combat Shot</h3>
-                        <p>Продолжение культового шутера Black Strike. Улучшенная графика и динамика.</p>
+            <h2 class="section-title">Наши <span>Проекты</span></h2>
+            <div class="grid-3">
+                <!-- Project 1 -->
+                <div class="card">
+                    <div class="project-thumb p-1">Combat Shot</div>
+                    <div class="card-body">
+                        <h3 class="card-title">Combat Shot</h3>
+                        <p class="card-text">Продолжение культового шутера Black Strike. Улучшенная графика.</p>
                         <div class="tags">
                             <span class="tag">Unity</span>
                             <span class="tag">3D</span>
-                            <span class="tag">Мультиплеер</span>
+                            <span class="tag">Online</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Проект 2 -->
-                <div class="project-card">
-                    <div class="project-img">Blade Clash 2</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Blade Clash 2</h3>
-                        <p>Динамичные сражения, новые арены и механики. Улучшенная боевая система.</p>
+                <!-- Project 2 -->
+                <div class="card">
+                    <div class="project-thumb p-2">Blade Clash 2</div>
+                    <div class="card-body">
+                        <h3 class="card-title">Blade Clash 2</h3>
+                        <p class="card-text">Динамичные сражения, новые арены и механики. Улучшенная боевая система.</p>
                         <div class="tags">
                             <span class="tag">Ccode</span>
                             <span class="tag">2D</span>
-                            <span class="tag">Экшен</span>
+                            <span class="tag">Action</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Проект 3 -->
-                <div class="project-card">
-                    <div class="project-img">Skin's Hunter</div>
-                    <div class="project-content">
-                        <h3 class="project-title">Skin's Hunter</h3>
-                        <p>Новая 2D-игра про охоту за скинами! Кейсы, трейды, мини-игры и эксклюзивные предметы.</p>
+                <!-- Project 3 -->
+                <div class="card">
+                    <div class="project-thumb p-3">Skin's Hunter</div>
+                    <div class="card-body">
+                        <h3 class="card-title">Skin's Hunter</h3>
+                        <p class="card-text">Новая игра про охоту за скинами! Кейсы, трейды и мини-игры.</p>
                         <div class="tags">
                             <span class="tag">Corona</span>
                             <span class="tag">2D</span>
-                            <span class="tag">Коллекционирование</span>
                         </div>
                     </div>
                 </div>
@@ -477,55 +494,54 @@
         </div>
     </section>
 
-    <!-- Наши курсы -->
-    <section id="courses" class="courses">
+    <!-- КУРСЫ -->
+    <section class="section-padding" id="courses">
         <div class="container">
-            <h2 class="section-title">Наша подборка курсов</h2>
-            <p class="section-subtitle">Бесплатные обучающие материалы по разработке игр</p>
-
-            <div class="features-grid">
-                <div class="course-card">
-                    <div>
-                        <h3 class="course-title">Unity разработка</h3>
-                        <p>Изучите создание 2D и 3D игр с нуля. Простое объяснение, реальные примеры и практические задания.</p>
-                    </div>
-                    <a href="#" class="btn btn-outline course-btn">Перейти на курс</a>
+            <h2 class="section-title">База <span>Знаний</span></h2>
+            
+            <div class="course-item">
+                <div class="course-info">
+                    <h3>Unity разработка</h3>
+                    <p>Создание 2D и 3D игр с нуля. Простое объяснение и практика.</p>
                 </div>
+                <a href="#" class="btn-small">ПЕРЕЙТИ</a>
+            </div>
 
-                <div class="course-card">
-                    <div>
-                        <h3 class="course-title">Конструктор Ccode</h3>
-                        <p>Основы и продвинутая логика для игровых механик. От простых скриптов до сложных систем.</p>
-                    </div>
-                    <a href="#" class="btn btn-outline course-btn">Смотреть на YouTube</a>
+            <div class="course-item">
+                <div class="course-info">
+                    <h3>Конструктор Ccode</h3>
+                    <p>Основы и продвинутая логика для игровых механик.</p>
                 </div>
+                <a href="#" class="btn-small">YOUTUBE</a>
+            </div>
 
-                <div class="course-card">
-                    <div>
-                        <h3 class="course-title">Движок Godot</h3>
-                        <p>Бесплатный движок с огромными возможностями. Узнайте, как делать игры быстро и просто.</p>
-                    </div>
-                    <a href="#" class="btn btn-outline course-btn">Перейти на курс</a>
+            <div class="course-item">
+                <div class="course-info">
+                    <h3>Движок Godot</h3>
+                    <p>Узнайте, как делать игры быстро и просто с открытым кодом.</p>
                 </div>
+                <a href="#" class="btn-small">ПЕРЕЙТИ</a>
             </div>
         </div>
     </section>
 
-    <!-- Подвал (Footer) -->
-    <footer id="contacts">
+    <!-- ПОДВАЛ (ВСЯ ИНФО) -->
+    <footer id="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Snayneo</h4>
-                    <p style="color: #a0a0a0; font-size: 0.9rem;">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+                        <div class="logo-icon" style="width:30px; height:30px; font-size:14px;">SN</div>
+                        <h4 style="margin:0;">Snayneo</h4>
+                    </div>
+                    <p style="color:#888; font-size:0.9rem;">
                         Разработка игр и создание обучающих материалов по различным игровым движкам.
                     </p>
                 </div>
 
                 <div class="footer-col">
-                    <h4>Наши ресурсы</h4>
+                    <h4>Ресурсы</h4>
                     <ul>
-                        <li><a href="#">О Snayneo</a></li>
                         <li><a href="#">Документация</a></li>
                         <li><a href="#">Политика конфиденциальности</a></li>
                         <li><a href="#">Условия использования</a></li>
@@ -533,18 +549,19 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4>Наши контакты</h4>
-                    <div class="social-links">
-                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">Telegram</a>
-                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">YouTube</a>
-                        <a href="#" class="btn-outline" style="padding: 5px 10px; border-radius: 5px;">GitHub</a>
-                    </div>
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><a href="#">Telegram Channel</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Email: team@snayneo.com</a></li>
+                    </ul>
                 </div>
             </div>
 
             <div class="copyright">
-                <p>&copy; 2022-2025 Snayneo. Все права защищены.</p>
-                <p style="margin-top: 5px; font-size: 0.8rem;">Создано с ❤️ командой Snayneo.</p>
+                © 2022-2025 Snayneo. Все права защищены. <br>
+                Создано с ❤️ командой Snayneo.
             </div>
         </div>
     </footer>
